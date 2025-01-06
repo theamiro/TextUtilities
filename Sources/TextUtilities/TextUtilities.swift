@@ -230,7 +230,7 @@ public struct ReplacingOccurences: TextCaseCodable {
     ///   - target: The substring or character to replace.
     ///   - replacement: The substring or character to use as the replacement.
     ///   - count: The maximum number of replacements to perform. Defaults to `0` (replaces all occurrences).
-    init(wrappedValue: String, target: any StringProtocol, replacement: any StringProtocol, count: Int = 0) {
+    public init(wrappedValue: String, target: any StringProtocol, replacement: any StringProtocol, count: Int = 0) {
         self.target = target
         self.replacement = replacement
         self.count = count
