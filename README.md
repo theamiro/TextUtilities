@@ -22,7 +22,7 @@ The **TextUtility** library for Swift provides a collection of `@propertyWrapper
 Add the `TextUtility` library to your Swift project using Swift Package Manager:
 
 ```swift
-.package(url: "https://github.com/your-repo/textutility.git", from: "1.0.0")
+.package(url: "https://github.com/theamiro/TextUtilities.git", from: "1.0.0")
 ```
 
 ---
