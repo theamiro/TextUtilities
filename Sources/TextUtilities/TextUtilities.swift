@@ -7,12 +7,14 @@ private let WHITESPACE: Character = " "
 private let HYPHEN = "-"
 private let UNDERSCORE = "_"
 
+private typealias TextCaseCodable = TextCaseEncodable & TextCaseDecodable
+
 // MARK: - TextCasing
 /// A property wrapper that ensures a string is always Capitalized.
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct Capitalized: TextCaseDecodable {
+public struct Capitalized: TextCaseCodable {
     private let localized: Bool
     public var wrappedValue: String {
         didSet {
@@ -34,7 +36,7 @@ public struct Capitalized: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct Lowercased: TextCaseDecodable {
+public struct Lowercased: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -57,7 +59,7 @@ public struct Lowercased: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct Uppercased: TextCaseDecodable {
+public struct Uppercased: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -80,7 +82,7 @@ public struct Uppercased: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct TitleCase: TextCaseDecodable {
+public struct TitleCase: TextCaseCodable {
     private let localized: Bool
     public var wrappedValue: String {
         didSet {
@@ -111,7 +113,7 @@ public struct TitleCase: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct SentenceCase: TextCaseDecodable {
+public struct SentenceCase: TextCaseCodable {
     private let localized: Bool
     public var wrappedValue: String {
         didSet {
@@ -134,7 +136,7 @@ public struct SentenceCase: TextCaseDecodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 
 @propertyWrapper
-public struct CamelCase: TextCaseDecodable {
+public struct CamelCase: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -185,7 +187,7 @@ public struct CamelCase: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct PascalCase: TextCaseDecodable {
+public struct PascalCase: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -216,7 +218,7 @@ public struct PascalCase: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct SnakeCase: TextCaseDecodable {
+public struct SnakeCase: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -243,7 +245,7 @@ public struct SnakeCase: TextCaseDecodable {
 /// - Parameters:
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
-public struct KebabCase: TextCaseDecodable {
+public struct KebabCase: TextCaseCodable {
     private let localized: Bool
 
     public var wrappedValue: String {
@@ -269,6 +271,8 @@ public struct KebabCase: TextCaseDecodable {
 protocol TextCaseDecodable: Decodable {
     init(wrappedValue: String, localized: Bool)
 }
+
+protocol TextCaseEncodable: Encodable {}
 
 extension TextCaseDecodable {
     public init(from decoder: any Decoder) throws {
