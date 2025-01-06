@@ -214,13 +214,15 @@ public struct KebabCase: TextCaseCodable {
 ///   - If `count == 0`: Replaces all occurrences of the target with the replacement.
 
 @propertyWrapper
-public struct ReplacingOccurences {
+public struct ReplacingOccurences: TextCaseCodable {
     private var target: any StringProtocol
     private var replacement: any StringProtocol
     private var count: Int
     
     public var wrappedValue: String
-    
+
+    init(wrappedValue: String, localized: Bool) { fatalError("Not permitted for use") }
+
     /// Initializes a new `ReplacingOccurrences` property wrapper.
     ///
     /// - Parameters:
@@ -246,13 +248,31 @@ public struct ReplacingOccurences {
             self.wrappedValue = wrappedValue.replacingOccurrences(of: target, with: replacement)
         }
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.target = ""
+        self.replacement = ""
+        self.count = 0
+        self.wrappedValue = value
+    }
 }
 
 protocol TextCaseDecodable: Decodable {
     init(wrappedValue: String, localized: Bool)
 }
 
-protocol TextCaseEncodable: Encodable {}
+protocol TextCaseEncodable: Encodable {
+    var wrappedValue: String { get set }
+}
+
+extension TextCaseEncodable {
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(wrappedValue)
+    }
+}
 
 extension TextCaseDecodable {
     public init(from decoder: any Decoder) throws {
