@@ -1,7 +1,7 @@
 import XCTest
 @testable import TextUtilities
 
-class TextUtilitiesTests: XCTestCase {
+final class TextUtilitiesTests: XCTestCase {
     @Capitalized private var firstName = "john"
     @Lowercased private var lastName = "DOE"
     @TitleCase private var title = "welcome JOHN DOe"
@@ -36,5 +36,19 @@ class TextUtilitiesTests: XCTestCase {
 
     func testKebabCaseProperty() {
         XCTAssertEqual(kebab, "the-quick-brown-fox-jumps-over-the-lazy-dog")
+    }
+
+    @ReplacingOccurences(target: ".", replacement: "")
+    private var username: String = "john.doe"
+
+    func testReplacingOccurrences() {
+        XCTAssertEqual(username, "johndoe")
+    }
+
+    @ReplacingOccurences(target: ".", replacement: "", count: 1)
+    private var email: String = "john.doe@gmail.com"
+
+    func testRestrictedReplacingOccurrences() {
+        XCTAssertEqual(email, "johndoe@gmail.com")
     }
 }
