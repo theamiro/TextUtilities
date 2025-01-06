@@ -8,6 +8,9 @@ private let HYPHEN = "-"
 private let UNDERSCORE = "_"
 
 // MARK: - TextCasing
+/// A property wrapper that ensures a string is always Capitalized.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Capitalized {
     private let localized: Bool
@@ -17,12 +20,19 @@ public struct Capitalized {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.localizedCapitalized : wrappedValue.capitalized
         self.localized = localized
     }
 }
 
+/// A property wrapper that ensures a string is always lowercased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Lowercased {
     private let localized: Bool
@@ -32,13 +42,20 @@ public struct Lowercased {
             wrappedValue = localized ? wrappedValue.localizedLowercase : wrappedValue.lowercased()
         }
     }
-    
+
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.localizedLowercase : wrappedValue.lowercased()
         self.localized = localized
     }
 }
 
+/// A property wrapper that ensures a string is always UPPERCASED.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Uppercased {
     private let localized: Bool
@@ -49,12 +66,19 @@ public struct Uppercased {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool) {
         self.wrappedValue = localized ? wrappedValue.localizedUppercase : wrappedValue.uppercased()
         self.localized = localized
     }
 }
 
+/// A property wrapper that ensures a string is always TitleCased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct TitleCase {
     private let localized: Bool
@@ -68,6 +92,10 @@ public struct TitleCase {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
             self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
@@ -79,6 +107,9 @@ public struct TitleCase {
     }
 }
 
+/// A property wrapper that ensures a string is always Sentence cased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct SentenceCase {
     private let localized: Bool
@@ -88,11 +119,19 @@ public struct SentenceCase {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.lowercased().localizedCapitalized : wrappedValue.lowercased().capitalized
         self.localized = localized
     }
 }
+
+/// A property wrapper that ensures a string is always camelCased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 
 @propertyWrapper
 public struct CamelCase {
@@ -118,6 +157,10 @@ public struct CamelCase {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
             self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).enumerated().map {
@@ -138,6 +181,9 @@ public struct CamelCase {
     }
 }
 
+/// A property wrapper that ensures a string is always PascalCased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct PascalCase {
     private let localized: Bool
@@ -152,6 +198,10 @@ public struct PascalCase {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
             self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.localizedCapitalized }.joined()
@@ -162,16 +212,23 @@ public struct PascalCase {
     }
 }
 
+// A property wrapper that ensures a string is always snake_cased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct SnakeCase {
     private let localized: Bool
-    
+
     public var wrappedValue: String {
         didSet {
             wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE) : wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
         }
     }
-    
+
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
             self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
@@ -182,6 +239,9 @@ public struct SnakeCase {
     }
 }
 
+// A property wrapper that ensures a string is always kebab-cased.
+/// - Parameters:
+///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct KebabCase {
     private let localized: Bool
@@ -192,6 +252,10 @@ public struct KebabCase {
         }
     }
 
+    /// Initializes the wrapper with an initial value and localization option.
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
             self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
