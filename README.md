@@ -1,4 +1,4 @@
-# TextUtility Library
+# Swift Text Utility Library
 <p align="left">
 <img src="https://github.com/theamiro/TextUtilities/actions/workflows/build.yml/badge.svg" />
 <img src="https://img.shields.io/badge/platform-iOS-brightgreen" />
