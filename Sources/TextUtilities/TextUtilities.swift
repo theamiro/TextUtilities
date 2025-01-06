@@ -3,6 +3,11 @@
 
 import Foundation
 
+private let WHITESPACE: Character = " "
+private let HYPHEN = "-"
+private let UNDERSCORE = "_"
+
+// MARK: - TextCasing
 @propertyWrapper
 public struct Capitalized {
     private let localized: Bool
@@ -56,19 +61,18 @@ public struct TitleCase {
     public var wrappedValue: String {
         didSet {
             if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").map { $0.capitalized }.joined(separator: " ")
+                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
             } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: " ").map { $0.capitalized }.joined(separator: " ")
-                
+                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
             }
         }
     }
 
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
-            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").map { $0.capitalized }.joined(separator: " ")
+            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
         } else {
-            self.wrappedValue = wrappedValue.lowercased().split(separator: " ").map { $0.capitalized }.joined(separator: " ")
+            self.wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
             
         }
         self.localized = localized
@@ -97,14 +101,14 @@ public struct CamelCase {
     public var wrappedValue: String {
         didSet {
             if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").enumerated().map {
+                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).enumerated().map {
                     if $0.offset > 0 {
                         return $0.element.localizedCapitalized
                     }
                     return String($0.element)
                 }.joined()
             } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: " ").enumerated().map {
+                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).enumerated().map {
                     if $0.offset > 0 {
                         return $0.element.capitalized
                     }
@@ -116,14 +120,14 @@ public struct CamelCase {
 
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
-            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").enumerated().map {
+            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).enumerated().map {
                 if $0.offset > 0 {
                     return $0.element.localizedCapitalized
                 }
                 return String($0.element)
             }.joined()
         } else {
-            self.wrappedValue = wrappedValue.lowercased().split(separator: " ").enumerated().map {
+            self.wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).enumerated().map {
                 if $0.offset > 0 {
                     return $0.element.capitalized
                 }
@@ -141,18 +145,18 @@ public struct PascalCase {
     public var wrappedValue: String {
         didSet {
             if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").map { $0.localizedCapitalized }.joined()
+                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.localizedCapitalized }.joined()
             } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: " ").map { $0.capitalized }.joined()
+                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined()
             }
         }
     }
 
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
-            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: " ").map { $0.localizedCapitalized }.joined()
+            self.wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.localizedCapitalized }.joined()
         } else {
-            self.wrappedValue = wrappedValue.lowercased().split(separator: " ").map { $0.capitalized }.joined()
+            self.wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined()
         }
         self.localized = localized
     }
@@ -164,15 +168,15 @@ public struct SnakeCase {
     
     public var wrappedValue: String {
         didSet {
-            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: " ", with: "_") : wrappedValue.lowercased().replacingOccurrences(of: " ", with: "_")
+            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE) : wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
         }
     }
     
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
-            self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: " ", with: "_")
+            self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
         } else {
-            self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: " ", with: "_")
+            self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
         }
         self.localized = localized
     }
@@ -184,15 +188,15 @@ public struct KebabCase {
 
     public var wrappedValue: String {
         didSet {
-            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: " ", with: "-") : wrappedValue.lowercased().replacingOccurrences(of: " ", with: "-")
+            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: HYPHEN) : wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
         }
     }
 
     public init(wrappedValue: String, localized: Bool = false) {
         if localized {
-            self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: " ", with: "-")
+            self.wrappedValue = wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
         } else {
-            self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: " ", with: "-")
+            self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
         }
         self.localized = localized
     }
