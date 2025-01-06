@@ -1,4 +1,11 @@
 # TextUtility Library
+<p align="left">
+<img src="https://github.com/theamiro/TextUtilities/actions/workflows/build.yml/badge.svg" />
+<img src="https://img.shields.io/badge/platform-iOS-brightgreen" />
+<a href="https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE">
+    <img alt="License: MIT"  src="https://img.shields.io/badge/license-MIT-yellow.svg"  target="_blank" />
+</a>
+</p>
 
 The **TextUtility** library for Swift provides a collection of `@propertyWrapper` implementations to transform and standardize string casing. These wrappers are designed to handle common text case transformations such as capitalization, lowercasing, uppercasing, and more, with optional localization support.
 
