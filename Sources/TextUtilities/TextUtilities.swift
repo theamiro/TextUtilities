@@ -272,6 +272,8 @@ protocol TextCaseDecodable: Decodable {
     init(wrappedValue: String, localized: Bool)
 }
 
+protocol TextCaseEncodable: Encodable {}
+
 extension TextCaseDecodable {
     public init(from decoder: any Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -279,5 +281,3 @@ extension TextCaseDecodable {
         self.init(wrappedValue: value, localized: false)
     }
 }
-
-protocol TextCaseEncodable: Encodable {}
