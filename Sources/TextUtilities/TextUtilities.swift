@@ -214,7 +214,7 @@ public struct KebabCase: TextCaseCodable {
 ///   - If `count == 0`: Replaces all occurrences of the target with the replacement.
 
 @propertyWrapper
-public struct ReplacingOccurences: Codable {
+public struct ReplacingOccurences {
     private var target: any StringProtocol
     private var replacement: any StringProtocol
     private var count: Int
@@ -245,20 +245,6 @@ public struct ReplacingOccurences: Codable {
         } else {
             self.wrappedValue = wrappedValue.replacingOccurrences(of: target, with: replacement)
         }
-    }
-
-    public init(from decoder: any Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let value = try container.decode(String.self)
-        self.target = ""
-        self.replacement = ""
-        self.count = 0
-        self.wrappedValue = value
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(wrappedValue)
     }
 }
 
