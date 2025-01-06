@@ -218,10 +218,8 @@ public struct ReplacingOccurences: Codable {
     private var target: any StringProtocol
     private var replacement: any StringProtocol
     private var count: Int
-    
-    public var wrappedValue: String
 
-    init(wrappedValue: String, localized: Bool) { fatalError("Not permitted for use") }
+    public var wrappedValue: String
 
     /// Initializes a new `ReplacingOccurrences` property wrapper.
     ///
