@@ -248,6 +248,28 @@ public struct ReplacingOccurences {
     }
 }
 
+@propertyWrapper
+public struct Truncate: Decodable {
+    private var length: Int
+    private var showEllipsis: Bool
+
+    public var wrappedValue: String
+    
+    public init(wrappedValue: String, length: Int = 200, showEllipsis: Bool = true) {
+        self.wrappedValue = "\(wrappedValue.prefix(length)) \(showEllipsis ? "..." : "")"
+        self.length = length
+        self.showEllipsis = showEllipsis
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.length = 200
+        self.showEllipsis = true
+        self.wrappedValue = "\(value.prefix(length))..."
+    }
+}
+
 protocol TextCaseDecodable: Decodable {
     init(wrappedValue: String, localized: Bool)
 }
