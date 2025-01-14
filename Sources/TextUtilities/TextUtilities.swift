@@ -15,20 +15,13 @@ private typealias TextCaseCodable = TextCaseEncodable & TextCaseDecodable
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Capitalized: TextCaseCodable {
-    private let localized: Bool
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.localizedCapitalized : wrappedValue.capitalized
-        }
-    }
-
+    public var wrappedValue: String
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
     ///   - wrappedValue: The initial string value.
     ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.localizedCapitalized : wrappedValue.capitalized
-        self.localized = localized
     }
 }
 
@@ -37,13 +30,8 @@ public struct Capitalized: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Lowercased: TextCaseCodable {
-    private let localized: Bool
 
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.localizedLowercase : wrappedValue.lowercased()
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -51,7 +39,6 @@ public struct Lowercased: TextCaseCodable {
     ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.localizedLowercase : wrappedValue.lowercased()
-        self.localized = localized
     }
 }
 
@@ -60,13 +47,7 @@ public struct Lowercased: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct Uppercased: TextCaseCodable {
-    private let localized: Bool
-
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.localizedUppercase : wrappedValue.uppercased()
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -74,7 +55,6 @@ public struct Uppercased: TextCaseCodable {
     ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool) {
         self.wrappedValue = localized ? wrappedValue.localizedUppercase : wrappedValue.uppercased()
-        self.localized = localized
     }
 }
 
@@ -83,16 +63,7 @@ public struct Uppercased: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct TitleCase: TextCaseCodable {
-    private let localized: Bool
-    public var wrappedValue: String {
-        didSet {
-            if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
-            } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
-            }
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -105,7 +76,6 @@ public struct TitleCase: TextCaseCodable {
             self.wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined(separator: String(WHITESPACE))
             
         }
-        self.localized = localized
     }
 }
 
@@ -114,12 +84,7 @@ public struct TitleCase: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct SentenceCase: TextCaseCodable {
-    private let localized: Bool
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.lowercased().localizedCapitalized : wrappedValue.lowercased().capitalized
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -127,7 +92,6 @@ public struct SentenceCase: TextCaseCodable {
     ///   - localized: Whether to apply locale-sensitive uppercasing (default is `false`).
     public init(wrappedValue: String, localized: Bool = false) {
         self.wrappedValue = localized ? wrappedValue.lowercased().localizedCapitalized : wrappedValue.lowercased().capitalized
-        self.localized = localized
     }
 }
 
@@ -137,27 +101,8 @@ public struct SentenceCase: TextCaseCodable {
 
 @propertyWrapper
 public struct CamelCase: TextCaseCodable {
-    private let localized: Bool
 
-    public var wrappedValue: String {
-        didSet {
-            if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).enumerated().map {
-                    if $0.offset > 0 {
-                        return $0.element.localizedCapitalized
-                    }
-                    return String($0.element)
-                }.joined()
-            } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).enumerated().map {
-                    if $0.offset > 0 {
-                        return $0.element.capitalized
-                    }
-                    return String($0.element)
-                }.joined()
-            }
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -179,7 +124,6 @@ public struct CamelCase: TextCaseCodable {
                 return String($0.element)
             }.joined()
         }
-        self.localized = localized
     }
 }
 
@@ -188,17 +132,8 @@ public struct CamelCase: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct PascalCase: TextCaseCodable {
-    private let localized: Bool
 
-    public var wrappedValue: String {
-        didSet {
-            if localized {
-                wrappedValue = wrappedValue.localizedLowercase.split(separator: WHITESPACE).map { $0.localizedCapitalized }.joined()
-            } else {
-                wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined()
-            }
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -210,7 +145,6 @@ public struct PascalCase: TextCaseCodable {
         } else {
             self.wrappedValue = wrappedValue.lowercased().split(separator: WHITESPACE).map { $0.capitalized }.joined()
         }
-        self.localized = localized
     }
 }
 
@@ -219,13 +153,8 @@ public struct PascalCase: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct SnakeCase: TextCaseCodable {
-    private let localized: Bool
 
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE) : wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
-        }
-    }
+    public var wrappedValue: String
 
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
@@ -237,7 +166,6 @@ public struct SnakeCase: TextCaseCodable {
         } else {
             self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: UNDERSCORE)
         }
-        self.localized = localized
     }
 }
 
@@ -246,14 +174,7 @@ public struct SnakeCase: TextCaseCodable {
 ///   - localized: Whether to apply a locale-sensitive transformation (default is `false`).
 @propertyWrapper
 public struct KebabCase: TextCaseCodable {
-    private let localized: Bool
-
-    public var wrappedValue: String {
-        didSet {
-            wrappedValue = localized ? wrappedValue.localizedLowercase.replacingOccurrences(of: String(WHITESPACE), with: HYPHEN) : wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
-        }
-    }
-
+    public var wrappedValue: String
     /// Initializes the wrapper with an initial value and localization option.
     /// - Parameters:
     ///   - wrappedValue: The initial string value.
@@ -264,7 +185,88 @@ public struct KebabCase: TextCaseCodable {
         } else {
             self.wrappedValue = wrappedValue.lowercased().replacingOccurrences(of: String(WHITESPACE), with: HYPHEN)
         }
-        self.localized = localized
+    }
+}
+
+/// A property wrapper that replaces occurrences of a target substring or character with a specified replacement in a string.
+///
+/// The wrapper supports replacing all occurrences or limiting replacements to a specific count.
+///
+/// Usage:
+/// ```swift
+/// struct Example {
+///     @ReplacingOccurrences(target: "hello", replacement: "hi")
+///     var message: String
+/// }
+///
+/// var example = Example(message: "hello world, hello Swift!")
+/// print(example.message) // Output: "hi world, hi Swift!"
+/// ```
+///
+/// - Parameters:
+///   - wrappedValue: The original string value.
+///   - target: The substring or character to replace. Must conform to `StringProtocol`.
+///   - replacement: The substring or character to use as the replacement. Must conform to `StringProtocol`.
+///   - count: The maximum number of replacements to perform. Defaults to `0` (replaces all occurrences).
+///
+/// - Behavior:
+///   - If `count > 0`: Replaces up to `count` occurrences of the target with the replacement.
+///   - If `count == 0`: Replaces all occurrences of the target with the replacement.
+
+@propertyWrapper
+public struct ReplacingOccurences {
+    private var target: any StringProtocol
+    private var replacement: any StringProtocol
+    private var count: Int
+
+    public var wrappedValue: String
+
+    /// Initializes a new `ReplacingOccurrences` property wrapper.
+    ///
+    /// - Parameters:
+    ///   - wrappedValue: The initial string value.
+    ///   - target: The substring or character to replace.
+    ///   - replacement: The substring or character to use as the replacement.
+    ///   - count: The maximum number of replacements to perform. Defaults to `0` (replaces all occurrences).
+    public init(wrappedValue: String, target: any StringProtocol, replacement: any StringProtocol, count: Int = 0) {
+        self.target = target
+        self.replacement = replacement
+        self.count = count
+        if count > 0 {
+            var internalCount = 0
+            self.wrappedValue = wrappedValue.map { character in
+                if internalCount < count, character.lowercased() == target.lowercased() {
+                    internalCount += 1
+                    return String(replacement)
+                } else {
+                    return String(character)
+                }
+            }.joined()
+        } else {
+            self.wrappedValue = wrappedValue.replacingOccurrences(of: target, with: replacement)
+        }
+    }
+}
+
+@propertyWrapper
+public struct Truncate: Decodable {
+    private var length: Int
+    private var showEllipsis: Bool
+
+    public var wrappedValue: String
+    
+    public init(wrappedValue: String, length: Int = 200, showEllipsis: Bool = true) {
+        self.wrappedValue = "\(wrappedValue.prefix(length))\(showEllipsis ? "..." : "")"
+        self.length = length
+        self.showEllipsis = showEllipsis
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.length = 200
+        self.showEllipsis = true
+        self.wrappedValue = "\(value.prefix(length))..."
     }
 }
 
@@ -272,7 +274,16 @@ protocol TextCaseDecodable: Decodable {
     init(wrappedValue: String, localized: Bool)
 }
 
-protocol TextCaseEncodable: Encodable {}
+protocol TextCaseEncodable: Encodable {
+    var wrappedValue: String { get set }
+}
+
+extension TextCaseEncodable {
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(wrappedValue)
+    }
+}
 
 extension TextCaseDecodable {
     public init(from decoder: any Decoder) throws {
