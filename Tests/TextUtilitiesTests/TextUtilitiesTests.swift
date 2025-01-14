@@ -9,6 +9,7 @@ final class TextUtilitiesTests: XCTestCase {
     @CamelCase private var camel = "Property Wrappers"
     @SnakeCase private var snake = "thE qUiCk BrOwN fOx jUmPs OvEr ThE lAzY dOg"
     @KebabCase private var kebab = "thE qUiCk BrOwN fOx jUmPs OvEr ThE lAzY dOg"
+    @Truncate(length: 10) private var trunk = "The quick brown fox jumps over the lazy dog"
 
     func testCapitalizedProperty() {
         XCTAssertEqual(firstName, "John")
@@ -50,5 +51,9 @@ final class TextUtilitiesTests: XCTestCase {
 
     func testRestrictedReplacingOccurrences() {
         XCTAssertEqual(email, "johndoe@gmail.com")
+    }
+
+    func testTruncation() {
+        XCTAssertEqual(trunk, "The quick ...")
     }
 }

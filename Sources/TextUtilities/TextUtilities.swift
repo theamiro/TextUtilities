@@ -256,7 +256,7 @@ public struct Truncate: Decodable {
     public var wrappedValue: String
     
     public init(wrappedValue: String, length: Int = 200, showEllipsis: Bool = true) {
-        self.wrappedValue = "\(wrappedValue.prefix(length)) \(showEllipsis ? "..." : "")"
+        self.wrappedValue = "\(wrappedValue.prefix(length))\(showEllipsis ? "..." : "")"
         self.length = length
         self.showEllipsis = showEllipsis
     }
