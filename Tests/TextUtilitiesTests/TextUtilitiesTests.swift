@@ -56,4 +56,53 @@ final class TextUtilitiesTests: XCTestCase {
     func testTruncation() {
         XCTAssertEqual(trunk, "The quick ...")
     }
+
+    @TrimCharacters(in: .punctuationCharacters)
+    private var punctuatedSentence = "The quick brown fox jumps over the lazy dog!"
+    func testTrimmingCharacters() {
+        XCTAssertEqual(punctuatedSentence, "The quick brown fox jumps over the lazy dog")
+    }
+
+    @TextReversal
+    var reversedText = "Hello world"
+    func testReversingText() {
+        XCTAssertEqual(reversedText, "dlrow olleH")
+    }
+
+    func testReversingDecodedText() throws {
+        let jsonData = """
+            {
+                "message": "Hello world"
+            }
+            """.data(using: .utf8)!
+        
+        let response = try JSONDecoder().decode(TextReversalResponse.self, from: jsonData)
+        XCTAssertEqual(response.message, "dlrow olleH")
+    }
+
+    @SHA256Hash var text = "Hello, CryptoKit!"
+    func test256Hash() {
+        XCTAssertEqual(text, "746e0151b9f045826c327b7a465b02e5fdf15d060eca2dcdd74827778aa1355b")
+    }
+
+    func test256HashDecoded() throws {
+        let jsonData = """
+            {
+                "message": "Hello world"
+            }
+            """.data(using: .utf8)!
+        
+        let response = try JSONDecoder().decode(SHA256Response.self, from: jsonData)
+        XCTAssertEqual(response.message, "64ec88ca00b268e5ba1a35678a1b5316d212f4f366b2477232534a8aeca37f3c")
+    }
+}
+
+struct TextReversalResponse: Decodable {
+    @TextReversal
+    var message: String
+}
+
+struct SHA256Response: Decodable {
+    @SHA256Hash
+    var message: String
 }
